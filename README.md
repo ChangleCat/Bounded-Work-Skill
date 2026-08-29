@@ -1,5 +1,7 @@
 # Bounded Work Skill
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Bounded Work is a harness-neutral agent skill for planning, executing, resuming, and auditing high-risk, multi-component, or multi-session work.
 
 It turns complex work into bounded, independently verifiable work cards backed by dependency state, durable authority, evidence, recovery boundaries, and approval gates. Migration is included as a specialized workflow rather than treated as the only supported task type.
@@ -23,17 +25,62 @@ For a small reversible edit, the skill deliberately falls back to a lightweight 
 - Optional control-file attestation and tamper detection.
 - A specialized migration and cutover workflow.
 
-## Install
+## Installation
 
-Clone the repository into your Codex skills directory using the canonical skill name:
+### Recommended: ask your agent to install it
+
+Send the repository URL to an agent that supports installing skills from Git repositories. You can copy this request as-is:
+
+```text
+Install the bounded-work skill from this repository:
+https://github.com/ChangleCat/Bounded-Work-Skill
+
+Use the repository root as the skill source, install it under the canonical
+name bounded-work, and verify that SKILL.md is discoverable after installation.
+Do not start any bounded project work yet.
+```
+
+In Codex, the agent can use the built-in Skill Installer when it is available. Another harness may use its own installer. Review any requested filesystem or network permission before approving it.
+
+After installation, start a new task and ask:
+
+```text
+Use $bounded-work to explain when this skill should and should not be used.
+```
+
+The response should recognize the `bounded-work` skill and distinguish full bounded workflows from routine one-shot edits.
+
+### Manual installation for Codex
+
+On macOS or Linux, clone the repository into the default personal skills directory using the canonical folder name:
 
 ```bash
 git clone https://github.com/ChangleCat/Bounded-Work-Skill.git ~/.codex/skills/bounded-work
 ```
 
-Or ask a compatible skill installer to install the `bounded-work` skill from this repository. In harnesses without named skill invocation, point the agent to [SKILL.md](SKILL.md) using that harness's supported mechanism.
+If `CODEX_HOME` is configured, use `<CODEX_HOME>/skills/bounded-work` instead. On Windows PowerShell, the default destination is:
 
-The core instructions have no runtime dependency. Optional deterministic helpers require Python 3.11+ and PyYAML 6.x:
+```powershell
+git clone https://github.com/ChangleCat/Bounded-Work-Skill.git "$env:USERPROFILE\.codex\skills\bounded-work"
+```
+
+To update an existing manual installation:
+
+```bash
+git -C ~/.codex/skills/bounded-work pull --ff-only
+```
+
+Confirm that `~/.codex/skills/bounded-work/SKILL.md` exists, then start a new task and invoke `$bounded-work`.
+
+### Other agent harnesses
+
+Use the harness's supported Skill or Agent Skills installation mechanism. The installed skill root must contain [SKILL.md](SKILL.md), and its canonical name is `bounded-work`. If the harness has no installer, clone the repository into its documented personal-skills directory or provide the repository path to the agent explicitly.
+
+The core instructions are harness-neutral and have no runtime dependency. Harness-specific invocation, approval, and lifecycle features are described in [portability guidance](references/portability.md).
+
+### Optional helper dependencies
+
+The deterministic initialization, validation, resume, and attestation helpers are optional. They require Python 3.11+ and PyYAML 6.x:
 
 ```bash
 python -m pip install -r scripts/requirements.txt
