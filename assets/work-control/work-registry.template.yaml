@@ -1,0 +1,22 @@
+schema_version: 3
+
+items:
+  - id: "W0-001"
+    title: "Establish the work charter and acceptance evidence"
+    stage: "stage-0"
+    type: "decision"
+    mode: "bootstrap"
+    status: "ready"
+    depends_on: []
+    claims: []
+    owner: "<owner>"
+    write_scope:
+      - "work-charter.md"
+      - "claims.yaml"
+    attempts: 0
+    max_attempts: 3
+    authority_ref: "authorization.yaml"
+    card: "work-items/stage-0/W0-001.md"
+    evidence: []
+    blocker: null
+    resolution: null

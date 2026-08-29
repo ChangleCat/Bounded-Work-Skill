@@ -1,0 +1,14 @@
+schema_version: 1
+status: "active"
+source: "<user request, ticket, or accepted decision>"
+granted_by: "<owner>"
+granted_at: "<RFC3339 timestamp>"
+allowed_modes:
+  - "frame"
+  - "bootstrap"
+allowed_scope:
+  - "."
+environments:
+  - "local"
+expires_at: null
+revoked_at: null

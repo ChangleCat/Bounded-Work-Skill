@@ -1,0 +1,6 @@
+schema_version: 1
+items:
+  - id: "CLM-001"
+    statement: "Replace with one observable success claim"
+    status: "active"
+    owner: "<owner>"

@@ -1,0 +1,84 @@
+schema_version: 3
+work_title: "Replace with the migration outcome"
+operating_mode: "bootstrap"
+migration_status: "active"
+current_stage: "baseline"
+stage_status: "active"
+active_items: []
+next_items:
+  - "M0-001"
+item_status_source: "work-registry.yaml"
+authorization_ref: "authorization.yaml"
+
+gates:
+  compatibility_envelope:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  target_contract_parity:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  release_candidate_rehearsal:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  production_adoption:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  rollback_window_closure:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  legacy_retirement:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+
+artifacts:
+  compatibility_envelope: "missing"
+  current_system_baseline: "missing"
+  work_charter: "work-charter.md"
+  claim_registry: "claims.yaml"
+  journal: "journal.jsonl"
+  evidence_dir: "evidence"
+  recovery_runbook: "missing"
+  cutover_evidence: "missing"
+  final_record: "missing"
+
+execution_policy:
+  concurrency_enabled: false
+  max_active_items: 1
+  merge_owner: null
+  default_max_attempts: 3
+  stall_after_minutes: null
+  require_completed_dependencies: true
+  require_mandatory_evidence: true
+  require_claim_coverage: false
+  require_attested_cards: false
+  allow_locked_stage_execution: false
+  preserve_existing_changes: true
+  keep_rehearsal_and_production_facts_distinct: true
+
+human_approval_required_for:
+  - "change_frozen_contract"
+  - "change_accepted_architecture"
+  - "production_traffic_or_workload_change"
+  - "destructive_schema_or_data_action"
+  - "secret_or_personal_data_use"
+  - "close_rollback_window"
+  - "legacy_retirement"
+  - "evidence_waiver"

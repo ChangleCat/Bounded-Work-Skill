@@ -1,0 +1,14 @@
+schema_version: 1
+id: "EV-000"
+claims: []
+result: "not_run"
+validity: "valid"
+producer: "<actor or tool>"
+produced_at: "<RFC3339 timestamp>"
+environment: "<environment>"
+artifact_identity: "<artifact, build, deployment, or decision identity>"
+source_revision: null
+based_on: []
+valid_until: null
+limits: []
+waiver_ref: null

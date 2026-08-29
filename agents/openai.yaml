@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bounded Work"
+  short_description: "Bound and verify complex, high-risk work"
+  default_prompt: "Use $bounded-work to bound, execute, and verify this task only within my requested scope and authority."

@@ -1,0 +1,27 @@
+{
+  "skill_name": "bounded-work",
+  "version": "0.2.0",
+  "schema_version": 1,
+  "queries": [
+    {"id": "BW-T01", "query": "把这个跨服务认证改造拆成可恢复的多阶段工作，并在每一步留下验收证据。", "should_trigger": true},
+    {"id": "BW-T02", "query": "Plan and execute this database migration over several maintenance windows with rollback gates.", "should_trigger": true},
+    {"id": "BW-T03", "query": "审计这个发布是否真的准备好了，不要修复。", "should_trigger": true},
+    {"id": "BW-T04", "query": "Continue the current high-risk work card after checking durable authority and evidence.", "should_trigger": true},
+    {"id": "BW-T05", "query": "建立一个即使换会话也能安全继续的可靠性治理计划。", "should_trigger": true},
+    {"id": "BW-T06", "query": "Frame a Python-to-Go backend migration that preserves contracts and keeps ML in Python.", "should_trigger": true},
+    {"id": "BW-T07", "query": "Assess production cutover, rollback rehearsal, and eventual legacy retirement.", "should_trigger": true},
+    {"id": "BW-T08", "query": "Coordinate three owners across overlapping components with explicit write ownership and merge gates.", "should_trigger": true},
+    {"id": "BW-T09", "query": "Resume this program from its control files only; assume all chat history is gone.", "should_trigger": true},
+    {"id": "BW-T10", "query": "Design an auditable disaster-recovery adoption program with human approvals and expiring evidence.", "should_trigger": true},
+    {"id": "BW-T11", "query": "Rename this private helper and run its one unit test.", "should_trigger": false},
+    {"id": "BW-T12", "query": "Explain what this error message means.", "should_trigger": false},
+    {"id": "BW-T13", "query": "把 README 里的一个错别字改掉。", "should_trigger": false},
+    {"id": "BW-T14", "query": "Format this JSON file.", "should_trigger": false},
+    {"id": "BW-T15", "query": "Write a short email asking for a meeting.", "should_trigger": false},
+    {"id": "BW-T16", "query": "Run the focused linter for this one file and report the result.", "should_trigger": false},
+    {"id": "BW-T17", "query": "What does dependency injection mean?", "should_trigger": false},
+    {"id": "BW-T18", "query": "Add one reversible CSS class to this component.", "should_trigger": false},
+    {"id": "BW-T19", "query": "Summarize the attached paragraph in Chinese.", "should_trigger": false},
+    {"id": "BW-T20", "query": "Find where this constant is defined in the repository.", "should_trigger": false}
+  ]
+}

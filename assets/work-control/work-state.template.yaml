@@ -1,0 +1,61 @@
+schema_version: 3
+work_title: "Replace with the outcome-oriented title"
+operating_mode: "bootstrap"
+work_status: "active"
+current_stage: "stage-0"
+stage_status: "active"
+active_items: []
+next_items:
+  - "W0-001"
+item_status_source: "work-registry.yaml"
+authorization_ref: "authorization.yaml"
+
+gates:
+  scope_acceptance:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  execution_readiness:
+    type: "automated"
+    status: "not_run"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+  final_acceptance:
+    type: "human"
+    status: "pending"
+    report: null
+    decision_ref: null
+    not_applicable_reason: null
+
+artifacts:
+  work_charter: "work-charter.md"
+  claim_registry: "claims.yaml"
+  journal: "journal.jsonl"
+  evidence_dir: "evidence"
+  evidence_report: "missing"
+  recovery_plan: "missing"
+  final_record: "missing"
+
+execution_policy:
+  concurrency_enabled: false
+  max_active_items: 1
+  merge_owner: null
+  default_max_attempts: 3
+  stall_after_minutes: null
+  require_completed_dependencies: true
+  require_mandatory_evidence: true
+  require_claim_coverage: false
+  require_attested_cards: false
+  allow_locked_stage_execution: false
+  preserve_existing_changes: true
+
+human_approval_required_for:
+  - "expand_scope_materially"
+  - "change_accepted_decision"
+  - "irreversible_action"
+  - "production_or_external_mutation"
+  - "secret_or_sensitive_data_use"
+  - "evidence_waiver"
