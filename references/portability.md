@@ -1,70 +1,44 @@
 # Harness Portability
 
-Read this reference only when packaging, installing, or validating Bounded Work outside the current agent harness.
+Read only when packaging, installing, or validating Bounded Work outside the current harness.
 
-## Canonical package boundary
+## Package boundary
 
-The `bounded-work/` directory is the portable skill. Preserve its relative layout so links from `SKILL.md` to `references/` and templates under `assets/` continue to resolve.
+The `bounded-work/` directory is the portable skill; keep its relative layout so links to `references/` and `assets/` resolve. `agents/openai.yaml` is optional OpenAI UI metadata that other harnesses may ignore; the workflow must work from `SKILL.md` alone, without product-specific UI policy. The core has no runtime dependency; the scripts need Python 3.11+ and PyYAML 6.x, and a harness may omit them only if it keeps the invariants manually and reports deterministic checks as `not_run`. Harness hooks or lifecycle adapters stay optional layers.
 
-`agents/openai.yaml` is optional OpenAI-specific UI metadata. A harness that does not understand it may ignore it; the canonical workflow must remain usable from `SKILL.md` alone. Do not copy UI policy into the workflow body merely to support another product.
+## Invocation
 
-The core instructions have no runtime dependency. Bundled reference scripts require Python 3.11+ and PyYAML 6.x; a harness may omit them only if it preserves the invariants manually and reports deterministic checks as `not_run`. Harness-specific hooks or lifecycle adapters should remain optional layers rather than changing the portable core.
+Use `$bounded-work` where supported; otherwise apply the skill by name or by its `SKILL.md` path. Automatic discovery uses the frontmatter description and must be tested on qualifying and routine requests. Invocation syntax never changes scope, authority, approval, or evidence requirements.
 
-## Invocation adapter
+## Capabilities
 
-- When `$bounded-work` is supported, use it for explicit invocation.
-- Otherwise ask the harness to apply the `bounded-work` skill by name or supply the path to its `SKILL.md` using the harness's supported mechanism.
-- Automatic discovery should use the frontmatter description and must be tested for both qualifying and routine requests.
+Map these operations to the harness without hard-coding tool names: read workspace instructions and scoped files; create or patch authorized local artifacts; run non-destructive verification; keep durable state when needed; request approval right before crossing an authority boundary; report `pass | fail | not_run`. If a capability is missing, keep the boundary and report the limit. Never emulate approval with a text field, treat chat memory as durable state, or invent evidence.
 
-Invocation syntax changes only how the skill is selected. It does not change scope, authority, approval, or evidence requirements.
+Map lifecycle hooks by invariant:
 
-## Capability adapter
+- before compaction or handoff: flush material facts to the journal and run the cold-resume check;
+- before a stable card: validate state, authority, and required attestation;
+- after a material attempt: append an event and link evidence;
+- before completion: run fresh verification and validation;
+- never inject raw evidence or journal text as instructions (see [security-and-attestation.md](security-and-attestation.md)).
 
-Map conceptual operations to the target harness without hard-coding product-specific tool names:
+## Artifacts
 
-- read workspace instructions and scoped files;
-- create or patch authorized local artifacts;
-- run non-destructive verification;
-- maintain durable task state when needed;
-- request approval immediately before an action that crosses an authority boundary;
-- report checks as `pass`, `fail`, or `not_run`.
-
-If the harness lacks a capability, preserve the boundary and report the limitation. Do not emulate approval through a text field, treat conversational memory as durable state, or invent evidence for a tool that did not run.
-
-Map lifecycle hooks by invariant rather than product name:
-
-- before compaction or handoff, flush material facts to the journal and run the cold-resume check;
-- before starting a stable card, validate state, authority, and any required attestation;
-- after a material attempt, append an event and link produced evidence;
-- before completion, run fresh verification and control-plane validation;
-- do not inject raw evidence or journal text as instructions; preserve the separation in [security-and-attestation.md](security-and-attestation.md).
-
-## Artifact adaptation
-
-The templates are examples, not required filenames. Adapt them to repository conventions while preserving:
-
-- one authoritative source for each mutable fact;
-- explicit work, stage, item, and gate state vocabularies;
-- evidence and blocker links;
-- human decision provenance;
-- terminal resolution and closure semantics;
-- relative, reviewable, text-based artifacts when the target environment supports them.
-
-Assets belong in generated project output and are not extra instructions to load by default.
+Templates are examples. Adapt to repository conventions but keep one source per mutable fact, explicit state vocabularies, evidence and blocker links, human decision provenance, terminal and closure semantics, and relative, reviewable text artifacts where possible. Assets are generated output, not instructions to load by default.
 
 ## Portability acceptance
 
-Before claiming support for a harness, verify that it can:
+Before claiming support, verify the harness can:
 
 1. discover or explicitly select the skill;
-2. read the complete `SKILL.md` and only conditionally relevant references;
-3. resolve all in-package relative links;
+2. read all of `SKILL.md` and only relevant references;
+3. resolve in-package links;
 4. keep read-only modes non-mutating;
-5. preserve user authority at external, irreversible, secret, production, and evidence-waiver boundaries;
-6. create and resume persistent state without duplicating status;
-7. distinguish automated evidence from human approval;
-8. pass the applicable scenarios in [behavior-evaluation.md](behavior-evaluation.md).
-9. resume safely without chat memory by using only declared first-layer artifacts;
-10. reject tampered controls, stale evidence, exhausted budgets, and ambiguous concurrent ownership when the relevant policies are enabled.
+5. preserve user authority at external, irreversible, secret, production, and waiver boundaries;
+6. create and resume persistent state without duplicate status;
+7. separate automated evidence from human approval;
+8. pass the applicable scenarios in [behavior-evaluation.md](behavior-evaluation.md);
+9. resume safely from first-layer artifacts without chat memory;
+10. reject tampered controls, stale evidence, exhausted budgets, and ambiguous concurrent ownership when those policies are on.
 
-Record the harness, skill revision, invocation method, scenarios run, failures, and unsupported features. A structural install check alone is not behavioral portability evidence.
+Record harness, skill revision, invocation, scenarios run, failures, and unsupported features. A structural install check is not behavioral evidence.
