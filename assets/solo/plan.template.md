@@ -18,13 +18,19 @@ Authorized: <the user's own words, date, and scope; e.g. "plan the export featur
 
 ## Cards
 
-Status lives only here: `[ ]` todo, `[x]` done (with commit), `[!]` blocked (with reason).
+Status lives only here: `[ ]` todo, `[x]` done (with commit), `[!]` blocked (with reason), `[-]` dropped (with reason).
+
+Detail only the next two or three cards.
 
 - [ ] 1. <outcome> - verify: `<command or check>`
 - [ ] 2. <outcome> - verify: `<command or check>` (needs 1)
 - [ ] 3. <outcome> - verify: `<command or check>`
 
 Add notes under a card only when its steps, scope, or rollback are not obvious.
+
+### Later
+
+- <one-line idea; detail it when it becomes one of the next cards>
 
 ## Decisions
 

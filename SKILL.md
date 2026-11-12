@@ -34,6 +34,14 @@ The user is owner, approver, reviewer, and decision owner; usually one agent exe
 - **Light cards.** One line: outcome plus verify command. Add steps, scope, or rollback only when non-obvious. After two or three genuinely different failed approaches, stop and explain.
 - **Decide small things.** Make reversible choices, log them in one line, continue. Ask only when a choice is hard to reverse or changes what the user gets.
 
+When reality outruns the plan:
+
+- **Plan near, sketch far.** Detail only the next two or three cards; keep later ones as one-line items under "Later" and detail them when they come up.
+- **Edit unstarted cards freely.** While goal, done-when, and out-of-scope hold, rewrite, split, merge, reorder, or drop unstarted cards; log one line why and continue.
+- **Scope changes are the user's.** Changing goal, done-when, or out-of-scope changes the authorization: stop and ask. A change the user requests is itself the new authorization; apply it without re-confirming.
+- **Keep history honest.** Mark dropped cards `[-]` with a reason instead of deleting them. Never uncheck a done card; if a change invalidates it, add a new card.
+- **Rewrite when patching stops working.** If most remaining cards are affected, rewrite the plan from current understanding (git keeps the old one) and confirm the new goal with the user.
+
 With subagents, the agent stays sole coordinator:
 
 - Only the coordinator edits the plan, checks off cards, logs decisions, and commits.
