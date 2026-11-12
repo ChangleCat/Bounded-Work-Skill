@@ -1,124 +1,90 @@
 # Work Control Plane
 
-Read this reference when work needs persistent state across sessions, owners, or environments, or when auditing an existing control plane.
+Read when work needs persistent state across sessions, owners, or environments, or when auditing one.
 
-## Use the lightest viable form
+## Lightest viable form
 
-| Work shape | Control mechanism |
+| Work shape | Mechanism |
 |---|---|
 | One focused session, low risk | In-turn checklist |
-| Several dependent items or sessions, one owner (solo profile) | One plan file with a card checklist; git as history and evidence |
-| Multi-session or resumable work | State file plus work cards |
-| Multiple owners, stages, or approval gates | Registry, stage packets, evidence reports, and validator |
+| Dependent items or sessions, one owner (solo profile) | One plan file with card checklist; git as history and evidence |
+| Multi-owner resumable work | State file plus work cards |
+| Multiple owners, stages, or approval gates | Registry, stage packets, evidence reports, validator |
 
-Promote to a heavier form when coordination failures become plausible. Do not maintain persistent state for a task expected to finish safely in the current turn.
+Promote only when coordination failures become plausible. Don't keep persistent state for work that will finish safely this turn.
 
 ## Sources of truth
 
-Keep each fact authoritative in one place:
+Each fact has one owner; generate summaries instead of copying mutable status.
 
-| Fact | Recommended owner |
+| Fact | Owner |
 |---|---|
-| Program outcome, scope, decision authority | Work charter |
-| Durable execution grant, allowed modes, scope, environments, expiry, revocation | Authorization record |
-| Stable acceptance claims and dispositions | Claim registry |
-| Overall work status, active stage, active/eligible pointers, gates, artifact readiness | Work state |
-| Item ID, dependencies, card location, task status | Work registry |
+| Outcome, scope, decision authority | Work charter |
+| Execution grant: modes, scope, environments, expiry, revocation | Authorization record |
+| Acceptance claims and dispositions | Claim registry |
+| Work status, active stage, active/eligible pointers, gates, artifact readiness | Work state |
+| Item ID, dependencies, card location, item status | Work registry |
 | Item outcome, scope, procedure, verification, recovery | Work card |
-| Shared stage boundaries and exit evidence | Stage packet |
+| Stage boundaries and exit evidence | Stage packet |
 | Accepted choice and consequences | Decision record |
 | Execution result | Evidence or gate report |
-| Historical attempts, discoveries, transitions, and handoffs | Append-only event journal |
+| Attempts, discoveries, transitions, handoffs | Append-only journal |
 
-Generate summaries from the sources of truth rather than copying mutable status into multiple documents.
+The journal explains history and never owns status. An attestation manifest proves bytes, never approval. Neither affects eligibility unless policy requires a valid attestation.
 
-The event journal explains history but never owns current status. An attestation manifest records byte integrity but never owns approval. Keep both out of eligibility calculations except when policy explicitly requires a valid attestation.
+## State vocabularies
 
-## Use explicit state vocabularies
+Use only what's needed, and never reuse a word with another meaning:
 
-Use only the states needed by the chosen control mechanism, but do not reuse one word for different meanings:
+- **Work**: `planned | active | blocked | completed | canceled | archived`
+- **Stage**: `locked | active | blocked | completed | canceled`
+- **Item**: `planned | ready | in_progress | blocked | completed | canceled | superseded`
+- **Automated gate**: `not_run | pass | fail`
+- **Human gate**: `pending | ready_for_approval | approved | rejected | not_applicable`
 
-- **Work**: `planned | active | blocked | completed | canceled | archived`.
-- **Stage**: `locked | active | blocked | completed | canceled`.
-- **Item**: `planned | ready | in_progress | blocked | completed | canceled | superseded`.
-- **Automated gate**: `not_run | pass | fail`.
-- **Human gate**: `pending | ready_for_approval | approved | rejected | not_applicable`.
+`canceled` and `superseded` need a reason and impact record and never satisfy a dependency on completion. `archived` means a closed record preserved inactive, not acceptance. Automation may set automated gates and recommend `ready_for_approval | not_ready | blocked` for human gates; only the named decision owner sets `approved` or `rejected`. `not_applicable` needs a reason.
 
-`canceled` and `superseded` require a reason and impact record. They do not satisfy dependencies that require a completed outcome. `archived` means a closed work record was preserved and made inactive; it is not another form of acceptance.
+## Invariants
 
-An automated report may set only an automated gate or recommend `ready_for_approval | not_ready | blocked` for a human gate. Only the named decision owner may set `approved` or `rejected`. Record a reason when a gate is `not_applicable`.
+Useful defaults:
 
-## State invariants
-
-Choose invariants appropriate to the work. Useful defaults include:
-
-- at most one item is `in_progress` unless concurrency is explicitly enabled;
-- `active_items` exactly matches registry items in `in_progress`;
-- `next_items` contains only `ready` items with completed dependencies, an active stage, and sufficient authority;
-- only `ready` or `in_progress` items may execute;
-- completed items have completed dependencies and links to mandatory evidence;
-- locked stages expose no executable cards;
+- at most one item `in_progress` unless concurrency is enabled;
+- `active_items` equals the registry's `in_progress` items;
+- `next_items` holds only `ready` items with completed dependencies, an active stage, and sufficient authority;
+- only `ready` or `in_progress` items execute; locked stages expose none;
+- completed items have completed dependencies and mandatory evidence links;
 - each registry item resolves to one card;
-- approved or rejected human gates resolve to a decision reference and cannot be set by automated validation;
-- blocked items resolve to a blocker record and preserve partial artifacts and diagnostic evidence;
-- reopening completed work requires a reason and impact review.
-- completed, canceled, or archived work has no active or eligible pointers.
-- an executing item resolves to an active, unexpired, unrevoked authorization record that permits its mode, scope, and environment;
-- an item whose attempts exceed its budget is blocked rather than eligible;
-- evidence required by completed items is valid, unexpired, and still bound to matching inputs;
-- an attestation-required active card matches its recorded digest.
+- approved or rejected human gates link a decision and are never set by validation;
+- blocked items link a blocker record and keep partial artifacts and diagnostics;
+- reopening completed work needs a reason and impact review;
+- completed, canceled, or archived work has no active or eligible pointers;
+- an executing item resolves to an active, unexpired, unrevoked authorization covering its mode, scope, and environment;
+- an item past its attempt budget is blocked;
+- evidence for completed items is valid, unexpired, and bound to matching inputs;
+- an attestation-required active card matches its digest.
 
-## Progressive context map
+## Context map
 
-Keep shared stage context small. Put item-specific source files, specifications, datasets, and commands in the card. If repeated routing into large documentation is needed, maintain a context map with:
-
-- first-layer required sources;
-- second-layer sources read only after a named trigger;
-- conditions that justify expanding context;
-- stable anchors or headings.
-
-This prevents both under-reading and indiscriminate loading.
+Keep shared stage context small; put item-specific sources and commands in the card. For large documentation, keep a map of first-layer sources, second-layer sources with their triggers, expansion conditions, and stable anchors.
 
 ## Concurrency and handoff
 
-Only parallelize cards that have:
+Parallelize only cards with completed shared prerequisites, disjoint write ownership or a merge owner, independent verification, no shared irreversible operation, and one coordinator for registry and gates. When `max_active_items` > 1, record structured ownership, write scopes, claims or leases if the harness needs them, and a merge owner. Block dispatch on ambiguous ownership, expired claims, or overlapping paths without a merge rule.
 
-- completed shared prerequisites;
-- non-overlapping write ownership or a defined merge owner;
-- independent verification;
-- no shared irreversible operation;
-- one coordinator responsible for registry and gate state.
+A handoff gives card ID, status, changes, evidence, checks not run, open risks, and the exact next action. Chat memory is never the only durable record. Before handoff or resume, apply the [cold-resume contract](traceability-and-resume.md); if first-layer artifacts can't reconstruct outcome, eligibility, proof, next action, and authority, repair them first.
 
-When `max_active_items` exceeds one, record structured ownership, non-overlapping write scopes, claim or lease information when the harness needs it, and a merge owner. On ambiguous ownership, expired claims, or overlapping paths without a merge rule, block dispatch.
+## Close or de-escalate
 
-A handoff should include the card ID, current status, changes made, evidence produced, checks not run, unresolved risks, and exact next action. Do not rely on conversational memory as the only durable record for long-running work.
+Close only after final acceptance is approved or recorded as not applicable. Before marking work `completed`:
 
-Before a handoff or resume, apply the [cold-resume contract](traceability-and-resume.md). If the declared first-layer artifacts cannot reconstruct outcome, eligibility, proof, next action, and authority, repair the control plane before work continues.
-
-## Close or de-escalate the control plane
-
-Close persistent work only after the applicable final acceptance is approved or explicitly recorded as not applicable. Before setting work to `completed`:
-
-1. resolve every item as `completed`, `canceled`, or `superseded`, preserving reasons for non-completed resolutions;
+1. resolve every item as `completed`, `canceled`, or `superseded`, with reasons for the latter two;
 2. clear `active_items` and `next_items`;
-3. link the final evidence or gate report and record what it does not prove;
-4. record whether recovery remains possible, any open rollback window, and the owner of residual risk;
-5. preserve decisions, waivers, blockers, artifact identities, and handoff information needed for audit or recovery.
+3. link final evidence and state what it doesn't prove;
+4. record whether recovery remains possible, any open rollback window, and who owns residual risk;
+5. keep decisions, waivers, blockers, artifact identities, and handoff data needed for audit or recovery.
 
-Use `canceled` when the outcome is abandoned rather than accepted. Use `archived` only after a closed record remains discoverable. If coordination risk falls enough that persistent state is no longer useful, record the de-escalation reason, preserve the latest evidence and unresolved obligations, and continue with a simpler plan or checklist.
+Use `canceled` for an abandoned outcome and `archived` only once the closed record stays discoverable. If persistent state stops being useful, record why, keep the latest evidence and open obligations, and continue with a simpler plan.
 
 ## Deterministic validation
 
-When a persistent control plane exists, prefer a read-only project-native checker for:
-
-- valid statuses and unique IDs;
-- active/eligible pointer and status agreement;
-- completed dependencies;
-- card and evidence links;
-- required card fields;
-- work/stage/item terminal-state and locked-stage rules;
-- duplicate status sources;
-- gate-type, decision-reference, and human-approval invariants.
-- durable authority, retry budgets, concurrency ownership, evidence freshness, bound-input digests, journal syntax, and required attestations.
-
-The checker should fail closed and explain the exact inconsistency. Do not weaken it merely to make state appear valid. The bundled reference checker and its limits are documented in [tooling.md](tooling.md).
+Prefer a read-only, project-native checker that fails closed with exact messages. It should cover statuses and unique IDs, pointer agreement, dependencies, card and evidence links, required card fields, terminal and locked-stage rules, duplicate status sources, gate semantics, authority, budgets, concurrency ownership, evidence freshness and digests, journal syntax, and required attestations. Never weaken it to make state pass. See [tooling.md](tooling.md) for the bundled checker.

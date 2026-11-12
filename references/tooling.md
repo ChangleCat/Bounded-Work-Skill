@@ -1,12 +1,10 @@
 # Reference Tooling
 
-Read this reference when creating, validating, resuming, or attesting a file-backed Bounded Work control plane with the bundled scripts.
+Read when creating, validating, resuming, or attesting a file-backed control plane with the bundled scripts.
 
 ## Requirements and boundary
 
-The helpers require Python 3.11+ and PyYAML 6.x. Install the dependency from `scripts/requirements.txt` in an isolated environment. The core workflow remains usable without the scripts, but any unrun deterministic check must be reported as `not_run`.
-
-All helpers are local and fail closed. They reject unsafe control-file paths and never grant approval, change a human gate to approved, execute a work card, or repair inconsistent state automatically.
+Python 3.11+ and PyYAML 6.x; install `scripts/requirements.txt` in an isolated environment. Without the scripts the workflow still works, but report unrun checks as `not_run`. All helpers are local and fail closed: they reject unsafe paths and never grant approval, approve a human gate, execute a card, or auto-repair state.
 
 ## Initialize
 
@@ -18,41 +16,37 @@ python scripts/init_work.py <work-root> \
   --claim "<observable success claim>"
 ```
 
-Add `--migration` to use the migration state template. Initialization creates a bootstrap-only authorization record, state, registry, claim registry, charter, first card, evidence directory, and empty append-only journal. It refuses to overwrite an existing control plane.
+`--migration` uses the migration state template. Creates a bootstrap-only authorization record, state, registry, claim registry, charter, first card, evidence directory, and empty journal. Refuses to overwrite an existing control plane.
 
-## Promote from Bootstrap to Execute
+## Promote Bootstrap to Execute
 
-The initializer intentionally cannot perform this transition. After an authorized owner accepts the charter and claims:
+The initializer can't do this. After an authorized owner accepts the charter and claims:
 
-1. add bounded execution cards and link each outcome-bearing card to claim IDs;
-2. record a new or updated durable authorization decision that explicitly allows `execute` for the required scope and environment;
-3. set the state mode to `execute`, enable claim coverage, and enable card attestation when unattended or cross-session execution requires it;
-4. attest accepted stable cards, then run validation and the cold-resume report;
-5. start only the exact item exposed as eligible.
+1. add bounded execution cards linked to claim IDs;
+2. record a durable authorization explicitly allowing `execute` for the needed scope and environment;
+3. set state mode to `execute`, enable claim coverage, and enable attestation if unattended or cross-session execution needs it;
+4. attest accepted stable cards, then run validation and the resume report;
+5. start only the item exposed as eligible.
 
-Changing a YAML field is not itself approval. Preserve the authority source and human decision provenance that justified the change.
+Editing a YAML field is not approval; keep the authority source and human decision provenance.
 
 ## Validate
 
 ```text
-python scripts/validate_work.py <work-root>
-python scripts/validate_work.py <work-root> --json
+python scripts/validate_work.py <work-root> [--json]
 ```
 
-Validation checks schemas, path containment, state vocabularies, pointers, dependencies, cycles, eligibility, authority, claim coverage policy, completed evidence, evidence freshness and bound-input digests, gate semantics, budgets, concurrency ownership, terminal closure, journal syntax, and required attestations.
-
-Exit status is `0` when no errors exist and `2` when the control plane is inconsistent. Warnings remain visible but do not make an otherwise bootstrap-safe control plane invalid.
+Checks schemas, path containment, vocabularies, pointers, dependencies, cycles, eligibility, authority, claim coverage, completed evidence, freshness and input digests, gate semantics, budgets, concurrency ownership, closure, journal syntax, and attestations. Exits `0` with no errors, `2` if inconsistent; warnings stay visible but don't fail an otherwise bootstrap-safe plane.
 
 ## Resume
 
 ```text
-python scripts/resume_work.py <work-root>
-python scripts/resume_work.py <work-root> --json
+python scripts/resume_work.py <work-root> [--json]
 ```
 
-The output implements the cold-resume contract: outcome, current state, eligibility reason, proved results, next action, and durable authority. It includes validation findings and exits `2` if safe continuation cannot be established.
+Implements the cold-resume contract (outcome, state, eligibility reason, proved results, next action, authority) with validation findings; exits `2` if safe continuation can't be established.
 
-## Attest or verify stable controls
+## Attest
 
 ```text
 python scripts/attest_control.py <work-root> attest <relative-path>... \
@@ -62,6 +56,4 @@ python scripts/attest_control.py <work-root> show
 python scripts/attest_control.py <work-root> clear <relative-path>...
 ```
 
-The manifest is `.bounded-work-attestations.json` under the work root. Attest cards, charters, contracts, or decisions that should remain stable during execution. Do not attest mutable state or journals merely to avoid expected changes.
-
-Verification compares SHA-256 digests and exits nonzero for missing, changed, unsafe, or unreadable records. A valid digest is integrity evidence only; human approval and execution authority remain separate records.
+Manifest: `.bounded-work-attestations.json` in the work root. Attest stable cards, charters, contracts, or decisions, not mutable state or journals. `verify` compares SHA-256 and exits nonzero for missing, changed, unsafe, or unreadable records. A valid digest is integrity evidence only.
