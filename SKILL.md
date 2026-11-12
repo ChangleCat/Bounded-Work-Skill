@@ -72,6 +72,14 @@ In solo work, the user is the owner, approver, reviewer, and decision owner at o
 - **Cards stay lightweight.** A card is one checklist line with an outcome and a verify command. Add steps, scope, or recovery notes only when they are non-obvious. Retry budgets become a judgment call: after two or three genuinely different failed approaches, stop and explain rather than keep trying.
 - **Decide small things yourself.** Make reversible choices, record them in one line in the decision log, and continue. Ask only when the choice is hard to reverse or changes what the user gets.
 
+When the agent delegates to subagents, it stays the single coordinator and the solo profile still applies:
+
+- **Only the coordinating agent owns shared state.** It alone edits the plan file, checks off cards, records decisions, and commits. Subagents return results; they do not update the plan.
+- **Read-only subagents need no ceremony.** Searching, research, and review can run freely and in parallel.
+- **Writing subagents get one card each and disjoint files.** Give each its own card and a stated set of files, or a separate worktree. When write sets overlap or are unclear, run those cards sequentially instead of escalating.
+- **A subagent's report is a claim, not evidence.** Before checking a card off, the coordinator inspects the diff, confirms it stayed within the card's files and scope, and runs the card's verification itself.
+- **Delegation never widens authority.** Each brief states the card's scope and the hard stops below. A subagent that reaches a hard stop halts and returns to the coordinator, which asks the user; a subagent cannot confirm on the user's behalf or receive more than its card allows.
+
 Keep these rules even in the solo profile, because they protect the user rather than coordinate a team:
 
 - confirm before irreversible or destructive actions, production or external-system changes, use of secrets, spending, and public communication;
@@ -81,7 +89,7 @@ Keep these rules even in the solo profile, because they protect the user rather 
 
 A single agent working on its own after the user hands over a task, inside the requested scope and with the hard stops above, is normal solo work and does not require escalation.
 
-Escalate from solo to the full workflow, and say so, when another person starts owning, reviewing, or approving part of the work; when several agents work in parallel on shared files; when work is triggered on a schedule or in the background and its results may go unseen across sessions; when production data, money, or users outside the developer are at risk; or when the user asks for an audit trail. Escalate only the affected cards when the rest of the plan stays solo.
+Escalate from solo to the full workflow, and say so, when another person starts owning, reviewing, or approving part of the work; when parallel writers must share files that cannot be split or sequenced; when work, including subagent work, is triggered on a schedule or in the background and its results may go unseen across sessions; when production data, money, or users outside the developer are at risk; or when the user asks for an audit trail. Escalate only the affected cards when the rest of the plan stays solo.
 
 ## Choose the operating mode
 
