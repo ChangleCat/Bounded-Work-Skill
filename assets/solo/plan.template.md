@@ -18,7 +18,7 @@ Authorized: <the user's own words, date, and scope; e.g. "plan the export featur
 
 ## Cards
 
-Status lives only here: `[ ]` todo, `[x]` done (with commit), `[!]` blocked (with reason), `[-]` dropped (with reason).
+Status lives only here: `[ ]` todo, `[x]` done (with commit or checkpoint), `[!]` blocked (with reason), `[-]` dropped (with reason).
 
 Detail only the next two or three cards.
 

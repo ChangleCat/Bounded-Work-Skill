@@ -100,6 +100,8 @@ python -m pip install -r scripts/requirements.txt
 显式调用示例：
 
 ```text
+使用 $bounded-work 规划并开始做我这个个人项目的导出功能，只有我一个人开发。
+
 使用 $bounded-work 评估这个跨服务认证改造，只制定方案，不修改文件。
 
 使用 $bounded-work 为这个跨会话可靠性项目建立可恢复的协作控制面。

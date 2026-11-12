@@ -4,7 +4,7 @@ Read only when packaging, installing, or validating Bounded Work outside the cur
 
 ## Package boundary
 
-The `bounded-work/` directory is the portable skill; keep its relative layout so links to `references/` and `assets/` resolve. `agents/openai.yaml` is optional OpenAI UI metadata that other harnesses may ignore; the workflow must work from `SKILL.md` alone, without product-specific UI policy. The core has no runtime dependency; the scripts need Python 3.11+ and PyYAML 6.x, and a harness may omit them only if it keeps the invariants manually and reports deterministic checks as `not_run`. Harness hooks or lifecycle adapters stay optional layers.
+The `bounded-work/` directory is the portable skill; keep its relative layout so links to `references/` and `assets/` resolve. `agents/openai.yaml` is optional OpenAI UI metadata that other harnesses may ignore; the workflow must work from `SKILL.md` and its in-package references, without product-specific UI policy. The core has no runtime dependency; the scripts need Python 3.11+ and PyYAML 6.x, and a harness may omit them only if it keeps the invariants manually and reports deterministic checks as `not_run`. Harness hooks or lifecycle adapters stay optional layers.
 
 ## Invocation
 
