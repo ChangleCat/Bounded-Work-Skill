@@ -1,6 +1,6 @@
 {
   "skill_name": "bounded-work",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "schema_version": 1,
   "queries": [
     {"id": "BW-T01", "query": "把这个跨服务认证改造拆成可恢复的多阶段工作，并在每一步留下验收证据。", "should_trigger": true},
@@ -13,6 +13,7 @@
     {"id": "BW-T08", "query": "Coordinate three owners across overlapping components with explicit write ownership and merge gates.", "should_trigger": true},
     {"id": "BW-T09", "query": "Resume this program from its control files only; assume all chat history is gone.", "should_trigger": true},
     {"id": "BW-T10", "query": "Design an auditable disaster-recovery adoption program with human approvals and expiring evidence.", "should_trigger": true},
+    {"id": "BW-T21", "query": "我一个人做的副业项目，要把存储从 SQLite 换成 Postgres，分几次会话做完，帮我规划并开始。", "should_trigger": true},
     {"id": "BW-T11", "query": "Rename this private helper and run its one unit test.", "should_trigger": false},
     {"id": "BW-T12", "query": "Explain what this error message means.", "should_trigger": false},
     {"id": "BW-T13", "query": "把 README 里的一个错别字改掉。", "should_trigger": false},
