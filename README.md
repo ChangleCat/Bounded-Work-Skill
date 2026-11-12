@@ -94,6 +94,8 @@ python -m pip install -r scripts/requirements.txt
 Explicit invocation examples:
 
 ```text
+Use $bounded-work to plan and start the export feature for my side project; it's just me.
+
 Use $bounded-work to frame this cross-service redesign without changing files.
 
 Use $bounded-work to establish resumable coordination for this reliability program.

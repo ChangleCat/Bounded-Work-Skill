@@ -75,7 +75,7 @@ Use core templates from `assets/work-control/` for ordinary cards and decisions,
 
 ## Report fields
 
-Add to the executed-card report when relevant:
+Add to the executed-card report in [../full-workflow.md](../full-workflow.md#executed-card-report) when relevant:
 
 ```text
 Compatibility impact: none | <approved change and decision reference>
