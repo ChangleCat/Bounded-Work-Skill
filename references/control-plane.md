@@ -7,7 +7,7 @@ Read this reference when work needs persistent state across sessions, owners, or
 | Work shape | Control mechanism |
 |---|---|
 | One focused session, low risk | In-turn checklist |
-| Several dependent items, one owner | Short plan with explicit verification |
+| Several dependent items or sessions, one owner (solo profile) | One plan file with a card checklist; git as history and evidence |
 | Multi-session or resumable work | State file plus work cards |
 | Multiple owners, stages, or approval gates | Registry, stage packets, evidence reports, and validator |
 

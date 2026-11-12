@@ -12,9 +12,12 @@ Use Bounded Work when work spans sessions, owners, components, or environments; 
 
 For a small reversible edit, the skill deliberately falls back to a lightweight objective, scope, and verification checklist instead of creating a full control plane.
 
+For personal projects where you own, decide, and review everything yourself, the skill uses a **solo profile**: one plan file with a card checklist, git as the history and evidence store, and your request as the authorization. It keeps working through cards instead of pausing for approvals that only make sense in a team, and still stops before destructive, production, secret, spending, or public actions. It escalates to the full workflow only when another person, unattended agents, or real external risk enter the picture.
+
 ## Highlights
 
 - Four modes: Frame, Bootstrap, Execute, and Audit.
+- A solo profile for personal development that drops team-only ceremony.
 - Atomic work cards and a single authoritative item-status source.
 - Durable authorization separated from automated validation.
 - Claim-to-card-to-evidence-to-gate traceability.
