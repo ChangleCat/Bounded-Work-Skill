@@ -18,7 +18,7 @@ Split complex work into bounded, resumable, verified units without overriding th
 | One person owns, decides, and reviews (personal projects), even across sessions or environments | Solo profile below |
 | Any escalation trigger below applies | Solo for unaffected cards; [references/full-workflow.md](references/full-workflow.md) for affected ones |
 
-Never create registries, stages, or gate reports just because the skill was invoked. For old/new system coexistence, compatibility, cutover, or legacy retirement, also read the migration references below.
+If a full control plane (registry, work state, authorization record) already exists, keep using it via [references/full-workflow.md](references/full-workflow.md); switch to solo only through an explicit de-escalation per [references/control-plane.md](references/control-plane.md#close-or-de-escalate), never by starting a parallel plan file. Never create registries, stages, or gate reports just because the skill was invoked. For old/new system coexistence, compatibility, cutover, or legacy retirement, also read the migration references below.
 
 ## Shared rules
 

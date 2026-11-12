@@ -36,7 +36,7 @@ class StructureTests(unittest.TestCase):
     def test_behavior_eval_catalog_is_complete(self) -> None:
         payload = json.loads((SKILL_ROOT / "evals/evals.json").read_text(encoding="utf-8"))
         actual = [entry["id"] for entry in payload["evals"]]
-        expected = [f"BW-E{index:02d}" for index in range(1, 20)]
+        expected = [f"BW-E{index:02d}" for index in range(1, 21)]
         self.assertEqual(actual, expected)
         for entry in payload["evals"]:
             self.assertTrue(entry["prompt"])
