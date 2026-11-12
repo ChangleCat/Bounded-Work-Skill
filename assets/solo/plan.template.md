@@ -1,6 +1,8 @@
 # Plan: <outcome in one line>
 
-Authorized: <who asked, date, and what scope; e.g. "me, 2026-01-05, plan and implement cards 1-4">
+Authorized: <the user's own words, date, and scope; e.g. "plan the export feature and implement cards 1-4", 2026-01-05>
+
+<!-- Only the user grants or widens this. The agent copies it from the request and never extends it. -->
 
 ## Goal
 
@@ -30,4 +32,4 @@ Add notes under a card only when its steps, scope, or rollback are not obvious.
 
 ## Resume notes
 
-<Where work stopped, what was tried, and the next card. Update this before ending a session.>
+<Where work stopped, the last checkpoint (commit or uncommitted state), what was tried, what the user should review, and the next card. Update this before ending a session.>
